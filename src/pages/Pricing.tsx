@@ -207,60 +207,80 @@ const Pricing = () => {
                 </div>
 
                 {Object.entries(pricingData).map(([key, data]) => (
-                    <TabsContent key={key} value={key} className="mt-0">
-                        <div className="mb-8 text-center">
-                            <h2 className="text-2xl font-semibold text-slate-800">{data.title}</h2>
+                    <TabsContent key={key} value={key} className="mt-8 relative z-10">
+                        <div className="mb-10 text-center">
+                            <motion.h2
+                                key={data.title}
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, ease: "easeOut" }}
+                                className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight"
+                            >
+                                {data.title}
+                            </motion.h2>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
                             {data.plans.map((plan, index) => (
                                 <motion.div
                                     key={plan.name}
                                     initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                                    className={`relative p-8 rounded-2xl border ${plan.highlight
-                                        ? 'border-blue-200 bg-white/90 shadow-xl ring-1 ring-blue-500/20'
-                                        : 'border-slate-200 bg-white/60 hover:bg-white/90 transition-colors'
-                                        } backdrop-blur-sm flex flex-col`}
+                                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                                    whileHover={{ y: -8, scale: 1.01, transition: { duration: 0.3 } }}
+                                    className={`relative p-8 rounded-3xl border transition-all duration-300 flex flex-col group ${plan.highlight
+                                        ? 'border-primary/50 bg-white/95 shadow-xl shadow-primary/10 ring-1 ring-primary/20 z-10'
+                                        : 'border-slate-200 bg-white/80 hover:bg-white hover:border-primary/30 hover:shadow-lg'
+                                        } backdrop-blur-md`}
                                 >
                                     {plan.highlight && (
-                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-md">
+                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-emerald-600 text-primary-foreground px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg shadow-primary/20 tracking-wide">
                                             Most Popular
                                         </div>
                                     )}
 
                                     <div className="mb-8">
-                                        <h3 className="text-xl font-bold text-slate-900 mb-2">{plan.name}</h3>
+                                        <h3 className="text-xl font-bold text-slate-800 mb-2">{plan.name}</h3>
                                         <div className="flex items-baseline gap-1 mb-4">
-                                            <span className="text-3xl font-bold text-slate-900">{plan.price}</span>
-                                            {plan.period && <span className="text-slate-500 font-medium">{plan.period}</span>}
+                                            <span className="text-4xl font-extrabold text-slate-900 tracking-tight">{plan.price}</span>
+                                            {plan.period && <span className="text-slate-500 font-medium text-sm">{plan.period}</span>}
                                         </div>
-                                        <p className="text-slate-600 text-sm leading-relaxed">{plan.description}</p>
+                                        <p className="text-slate-600 text-sm leading-relaxed min-h-[40px]">{plan.description}</p>
                                     </div>
 
                                     <div className="flex-grow mb-8 border-t border-slate-100 pt-6">
-                                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Features Included</p>
+                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Features</p>
                                         <ul className="space-y-4">
-                                            {plan.features.map((feature) => (
-                                                <li key={feature} className="flex items-start gap-3 text-sm text-slate-700">
-                                                    <Check className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
+                                            {plan.features.map((feature, i) => (
+                                                <motion.li
+                                                    key={feature}
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: 0.5 + (index * 0.1) + (i * 0.05) }}
+                                                    className="flex items-start gap-3 text-sm text-slate-700 font-medium"
+                                                >
+                                                    <div className="mt-0.5 rounded-full bg-primary/10 p-1 group-hover:bg-primary/20 transition-colors">
+                                                        <Check className="h-3.5 w-3.5 text-primary shrink-0" strokeWidth={3} />
+                                                    </div>
                                                     <span className="leading-snug">{feature}</span>
-                                                </li>
+                                                </motion.li>
                                             ))}
                                         </ul>
                                     </div>
 
                                     <Button
-                                        className={`w-full ${plan.highlight
-                                            ? 'bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200'
-                                            : 'bg-white text-slate-900 border border-slate-200 hover:bg-slate-50'
+                                        className={`w-full py-6 text-base font-semibold rounded-xl transition-all duration-300 relative overflow-hidden ${plan.highlight
+                                            ? 'bg-primary text-white shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1'
+                                            : 'bg-white text-slate-900 border-2 border-slate-100 hover:border-primary hover:text-primary hover:bg-slate-50'
                                             }`}
                                         variant={plan.highlight ? 'default' : 'outline'}
                                         size="lg"
                                         onClick={() => navigate('/auth?tab=signup')}
                                     >
-                                        {plan.buttonText}
+                                        <span className="relative z-10">{plan.buttonText}</span>
+                                        {plan.highlight && (
+                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:animate-[shimmer_1.5s_infinite]" />
+                                        )}
                                     </Button>
                                 </motion.div>
                             ))}
