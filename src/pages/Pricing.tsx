@@ -4,6 +4,7 @@ import { MinimalBackground } from '@/components/landing/MinimalBackground';
 import { Check, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AlmacLogo } from '@/components/ui/AlmacLogo';
 
 const Pricing = () => {
     const navigate = useNavigate();
@@ -141,153 +142,153 @@ const Pricing = () => {
     };
 
     return (
-        <div className="relative min-h-screen flex flex-col p-6 md:p-12 lg:p-20 overflow-hidden">
+        <div className="relative min-h-screen flex flex-col">
             <MinimalBackground />
 
-            {/* Back Button */}
-            <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-8"
-            >
-                <Button
-                    variant="ghost"
-                    onClick={() => navigate('/')}
-                    className="group pl-0 hover:pl-2 transition-all duration-300"
-                >
-                    <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                    Back to Home
-                </Button>
-            </motion.div>
-
             {/* Header */}
-            <div className="text-center max-w-3xl mx-auto mb-12">
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="text-4xl md:text-5xl font-bold mb-6 text-slate-900"
-                >
-                    Simple, Transparent Pricing
-                </motion.h1>
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="text-lg text-slate-600"
-                >
-                    Choose the plan that fits your organization's sustainability goals.
-                </motion.p>
-            </div>
+            <header className="w-full px-6 py-4 flex items-center justify-between bg-white/50 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100/50">
+                <div onClick={() => navigate('/')} className="cursor-pointer">
+                    <AlmacLogo className="h-10 md:h-12" />
+                </div>
+                <div className="flex items-center gap-2 md:gap-4">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => navigate('/')}
+                        className="hidden md:flex items-center gap-2 text-slate-600 hover:text-primary hover:bg-primary/5"
+                    >
+                        <ArrowLeft className="h-4 w-4" /> Back to Home
+                    </Button>
+                    <Button
+                        size="sm"
+                        onClick={() => navigate('/auth?tab=signup')}
+                        className="bg-primary hover:bg-primary/90 text-white shadow-md shadow-primary/20"
+                    >
+                        Get Started
+                    </Button>
+                </div>
+            </header>
 
-            {/* Tabs & Pricing Cards */}
-            <Tabs defaultValue="carbotracker" className="w-full max-w-7xl mx-auto">
-                <div className="flex justify-center mb-12">
-                    <TabsList className="grid w-full max-w-2xl grid-cols-1 md:grid-cols-3 h-auto gap-2 bg-slate-100/50 p-2">
-                        <TabsTrigger
-                            value="carbotracker"
-                            className="text-sm md:text-base py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                        >
-                            Carbotracker
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="netzeroview"
-                            className="text-sm md:text-base py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                        >
-                            NetZeroView
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="carboconnect"
-                            className="text-sm md:text-base py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                        >
-                            CarboConnect
-                        </TabsTrigger>
-                    </TabsList>
+            {/* Main Content */}
+            <main className="flex-grow flex flex-col p-6 md:p-12 lg:p-20 pt-10 md:pt-16">
+                <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-slate-900 tracking-tight"
+                    >
+                        Simple, Transparent Pricing
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto"
+                    >
+                        Choose the plan that fits your organization's sustainability goals. No hidden fees.
+                    </motion.p>
                 </div>
 
-                {Object.entries(pricingData).map(([key, data]) => (
-                    <TabsContent key={key} value={key} className="mt-8 relative z-10">
-                        <div className="mb-10 text-center">
-                            <motion.h2
-                                key={data.title}
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
-                                className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight"
-                            >
-                                {data.title}
-                            </motion.h2>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
-                            {data.plans.map((plan, index) => (
-                                <motion.div
-                                    key={plan.name}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: index * 0.15 }}
-                                    whileHover={{ y: -8, scale: 1.01, transition: { duration: 0.3 } }}
-                                    className={`relative p-8 rounded-3xl border transition-all duration-300 flex flex-col group ${plan.highlight
-                                        ? 'border-primary/50 bg-white/95 shadow-xl shadow-primary/10 ring-1 ring-primary/20 z-10'
-                                        : 'border-slate-200 bg-white/80 hover:bg-white hover:border-primary/30 hover:shadow-lg'
-                                        } backdrop-blur-md`}
+                {/* Tabs & Pricing Cards */}
+                <Tabs defaultValue="carbotracker" className="w-full max-w-7xl mx-auto">
+                    <div className="flex justify-center mb-12">
+                        <TabsList className="grid w-full max-w-2xl grid-cols-1 md:grid-cols-3 h-auto gap-2 bg-slate-100/50 p-1.5 rounded-2xl">
+                            {['carbotracker', 'netzeroview', 'carboconnect'].map((tab) => (
+                                <TabsTrigger
+                                    key={tab}
+                                    value={tab}
+                                    className="text-sm md:text-base py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md data-[state=active]:font-semibold transition-all duration-300"
                                 >
-                                    {plan.highlight && (
-                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-emerald-600 text-primary-foreground px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg shadow-primary/20 tracking-wide">
-                                            Most Popular
-                                        </div>
-                                    )}
-
-                                    <div className="mb-8">
-                                        <h3 className="text-xl font-bold text-slate-800 mb-2">{plan.name}</h3>
-                                        <div className="flex items-baseline gap-1 mb-4">
-                                            <span className="text-4xl font-extrabold text-slate-900 tracking-tight">{plan.price}</span>
-                                            {plan.period && <span className="text-slate-500 font-medium text-sm">{plan.period}</span>}
-                                        </div>
-                                        <p className="text-slate-600 text-sm leading-relaxed min-h-[40px]">{plan.description}</p>
-                                    </div>
-
-                                    <div className="flex-grow mb-8 border-t border-slate-100 pt-6">
-                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Features</p>
-                                        <ul className="space-y-4">
-                                            {plan.features.map((feature, i) => (
-                                                <motion.li
-                                                    key={feature}
-                                                    initial={{ opacity: 0, x: -10 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    transition={{ delay: 0.5 + (index * 0.1) + (i * 0.05) }}
-                                                    className="flex items-start gap-3 text-sm text-slate-700 font-medium"
-                                                >
-                                                    <div className="mt-0.5 rounded-full bg-primary/10 p-1 group-hover:bg-primary/20 transition-colors">
-                                                        <Check className="h-3.5 w-3.5 text-primary shrink-0" strokeWidth={3} />
-                                                    </div>
-                                                    <span className="leading-snug">{feature}</span>
-                                                </motion.li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-                                    <Button
-                                        className={`w-full py-6 text-base font-semibold rounded-xl transition-all duration-300 relative overflow-hidden ${plan.highlight
-                                            ? 'bg-primary text-white shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1'
-                                            : 'bg-white text-slate-900 border-2 border-slate-100 hover:border-primary hover:text-primary hover:bg-slate-50'
-                                            }`}
-                                        variant={plan.highlight ? 'default' : 'outline'}
-                                        size="lg"
-                                        onClick={() => navigate('/auth?tab=signup')}
-                                    >
-                                        <span className="relative z-10">{plan.buttonText}</span>
-                                        {plan.highlight && (
-                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:animate-[shimmer_1.5s_infinite]" />
-                                        )}
-                                    </Button>
-                                </motion.div>
+                                    {tab === 'carbotracker' ? 'Carbotracker' : tab === 'netzeroview' ? 'NetZeroView' : 'CarboConnect'}
+                                </TabsTrigger>
                             ))}
-                        </div>
-                    </TabsContent>
-                ))}
-            </Tabs>
+                        </TabsList>
+                    </div>
+
+                    {Object.entries(pricingData).map(([key, data]) => (
+                        <TabsContent key={key} value={key} className="mt-4 relative z-10 focus-visible:outline-none">
+                            <div className="mb-12 text-center">
+                                <motion.h2
+                                    key={data.title}
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                    className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight"
+                                >
+                                    {data.title}
+                                </motion.h2>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+                                {data.plans.map((plan, index) => (
+                                    <motion.div
+                                        key={plan.name}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5, delay: index * 0.15 }}
+                                        whileHover={{ y: -8, scale: 1.01, transition: { duration: 0.3 } }}
+                                        className={`relative p-8 rounded-[2rem] border transition-all duration-300 flex flex-col group ${plan.highlight
+                                            ? 'border-primary/50 bg-white/95 shadow-2xl shadow-primary/10 ring-1 ring-primary/20 z-10'
+                                            : 'border-slate-200 bg-white/80 hover:bg-white hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5'
+                                            } backdrop-blur-md`}
+                                    >
+                                        {plan.highlight && (
+                                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-emerald-600 text-primary-foreground px-5 py-1.5 rounded-full text-sm font-bold shadow-lg shadow-primary/20 tracking-wide">
+                                                MOST POPULAR
+                                            </div>
+                                        )}
+
+                                        <div className="mb-8">
+                                            <h3 className="text-xl font-bold text-slate-800 mb-2">{plan.name}</h3>
+                                            <div className="flex items-baseline gap-1 mb-4">
+                                                <span className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">{plan.price}</span>
+                                                {plan.period && <span className="text-slate-500 font-medium text-sm lg:text-base">{plan.period}</span>}
+                                            </div>
+                                            <p className="text-slate-600 text-sm leading-relaxed min-h-[40px]">{plan.description}</p>
+                                        </div>
+
+                                        <div className="flex-grow mb-8 border-t border-slate-100 pt-8">
+                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Features</p>
+                                            <ul className="space-y-4">
+                                                {plan.features.map((feature, i) => (
+                                                    <motion.li
+                                                        key={feature}
+                                                        initial={{ opacity: 0, x: -10 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        transition={{ delay: 0.5 + (index * 0.1) + (i * 0.05) }}
+                                                        className="flex items-start gap-3 text-sm text-slate-700 font-medium group/item"
+                                                    >
+                                                        <div className="mt-0.5 rounded-full bg-primary/10 p-1 group-hover/item:bg-primary/20 transition-colors duration-300">
+                                                            <Check className="h-3.5 w-3.5 text-primary shrink-0" strokeWidth={3} />
+                                                        </div>
+                                                        <span className="leading-snug">{feature}</span>
+                                                    </motion.li>
+                                                ))}
+                                            </ul>
+                                        </div>
+
+                                        <Button
+                                            className={`w-full py-6 text-base font-semibold rounded-xl transition-all duration-300 relative overflow-hidden ${plan.highlight
+                                                ? 'bg-primary text-white shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1'
+                                                : 'bg-white text-slate-900 border-2 border-slate-100 hover:border-primary hover:text-primary hover:bg-slate-50'
+                                                }`}
+                                            variant={plan.highlight ? 'default' : 'outline'}
+                                            size="lg"
+                                            onClick={() => navigate('/auth?tab=signup')}
+                                        >
+                                            <span className="relative z-10">{plan.buttonText}</span>
+                                            {plan.highlight && (
+                                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:animate-[shimmer_1.5s_infinite]" />
+                                            )}
+                                        </Button>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </TabsContent>
+                    ))}
+                </Tabs>
+            </main>
         </div>
     );
 };
