@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MinimalBackground } from '@/components/landing/MinimalBackground';
@@ -5,9 +6,113 @@ import { Check, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlmacLogo } from '@/components/ui/AlmacLogo';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner"; // Assuming sonner is installed/used for toasts
+
+const ContactSalesModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        companyName: '',
+        phoneNumber: '',
+        workEmail: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Here you would typically send the data to your backend
+        console.log("Form Data Submitted:", formData);
+        toast.success("Request sent! We'll be in touch shortly.");
+        onClose();
+    };
+
+    return (
+        <Dialog open={isOpen} onOpenChange={onClose}>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>Contact Sales</DialogTitle>
+                    <DialogDescription>
+                        Get a custom quote for your enterprise needs.
+                    </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                        <Label htmlFor="name">Name</Label>
+                        <Input
+                            id="name"
+                            name="name"
+                            placeholder="John Doe"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="companyName">Company Name</Label>
+                        <Input
+                            id="companyName"
+                            name="companyName"
+                            placeholder="Acme Inc."
+                            value={formData.companyName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="phoneNumber">Phone Number</Label>
+                        <Input
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            placeholder="+1 (555) 000-0000"
+                            value={formData.phoneNumber}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="workEmail">Work Email</Label>
+                        <Input
+                            id="workEmail"
+                            name="workEmail"
+                            type="email"
+                            placeholder="john@acme.com"
+                            value={formData.workEmail}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="flex justify-end mt-4">
+                        <Button type="submit">Submit Request</Button>
+                    </div>
+                </form>
+            </DialogContent>
+        </Dialog>
+    );
+};
 
 const Pricing = () => {
     const navigate = useNavigate();
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+    const handlePlanAction = (planName: string) => {
+        if (planName === 'Enterprise') {
+            setIsContactModalOpen(true);
+        } else {
+            navigate('/auth?tab=signup');
+        }
+    };
 
     const pricingData = {
         carbotracker: {
@@ -32,7 +137,7 @@ const Pricing = () => {
                     period: '/month',
                     description: 'Advanced tracking for growing companies.',
                     features: [
-                        'Full Scope 3 (Supply Chain + Product Lifecycle)',
+                        'Full Scope 3 (Multiple Sites)',
                         'Multi-site tracking',
                         'Year-on-year benchmarking'
                     ],
@@ -41,7 +146,7 @@ const Pricing = () => {
                 },
                 {
                     name: 'Enterprise',
-                    price: 'POA',
+                    price: 'Custom Quote',
                     period: '',
                     description: 'Custom solutions for complex needs.',
                     features: [
@@ -54,12 +159,12 @@ const Pricing = () => {
             ]
         },
         netzeroview: {
-            title: "NetZeroView (The Netzero Platform)",
+            title: "Net-Z Platform (The Netzero Platform)",
             plans: [
                 {
                     name: 'SME Starter',
                     price: '£25',
-                    period: '/mo',
+                    period: '/month',
                     description: 'Showcase your sustainability journey.',
                     features: [
                         'Simple "Net Zero" badge for your website',
@@ -70,8 +175,8 @@ const Pricing = () => {
                 },
                 {
                     name: 'Large Company',
-                    price: '£150',
-                    period: '/mo',
+                    price: '£149',
+                    period: '/month',
                     description: 'Comprehensive roadmapping and reporting.',
                     features: [
                         'Detailed roadmapping',
@@ -83,7 +188,7 @@ const Pricing = () => {
                 },
                 {
                     name: 'Enterprise',
-                    price: 'Custom / POA',
+                    price: 'Custom Quote',
                     period: '',
                     description: 'Full-scale sustainability management.',
                     features: [
@@ -101,8 +206,8 @@ const Pricing = () => {
             plans: [
                 {
                     name: 'SME Starter',
-                    price: 'Basic Access',
-                    period: '',
+                    price: '£49',
+                    period: '/month',
                     description: 'For suppliers reporting to clients.',
                     features: [
                         'Small firms needing to report data upward',
@@ -113,8 +218,8 @@ const Pricing = () => {
                 },
                 {
                     name: 'Large Company',
-                    price: '£300 - £600',
-                    period: '/mo',
+                    price: '£299 - £499',
+                    period: '/month',
                     description: 'Automated engagement for key suppliers.',
                     features: [
                         'Engaging up to 200 key suppliers',
@@ -144,6 +249,7 @@ const Pricing = () => {
     return (
         <div className="relative min-h-screen flex flex-col">
             <MinimalBackground />
+            <ContactSalesModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
 
             {/* Header */}
             <header className="w-full px-6 py-4 flex items-center justify-between bg-white/50 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100/50">
@@ -184,7 +290,7 @@ const Pricing = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto"
+                        className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto"
                     >
                         Choose the plan that fits your organization's sustainability goals. No hidden fees.
                     </motion.p>
@@ -200,7 +306,7 @@ const Pricing = () => {
                                     value={tab}
                                     className="text-sm md:text-base py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md data-[state=active]:font-semibold transition-all duration-300"
                                 >
-                                    {tab === 'carbotracker' ? 'Carbotracker' : tab === 'netzeroview' ? 'NetZeroView' : 'CarboConnect'}
+                                    {tab === 'carbotracker' ? 'Carbotracker' : tab === 'netzeroview' ? 'Net-Z Platform' : 'CarboConnect'}
                                 </TabsTrigger>
                             ))}
                         </TabsList>
@@ -275,7 +381,7 @@ const Pricing = () => {
                                                 }`}
                                             variant={plan.highlight ? 'default' : 'outline'}
                                             size="lg"
-                                            onClick={() => navigate('/auth?tab=signup')}
+                                            onClick={() => handlePlanAction(plan.name)}
                                         >
                                             <span className="relative z-10">{plan.buttonText}</span>
                                             {plan.highlight && (
