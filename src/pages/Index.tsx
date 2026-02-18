@@ -6,7 +6,7 @@ import { useAdmin } from '@/hooks/useAdmin';
 import { Shield, ArrowRight, BarChart3, Target, TrendingDown, Award, Leaf } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, useInView } from 'framer-motion';
-import { NetZeroPath } from '@/components/landing/NetZeroPath';
+import { NetZeroChart } from '@/components/landing/NetZeroChart';
 import { MinimalBackground } from '@/components/landing/MinimalBackground';
 
 const FadeInSection = ({
@@ -109,7 +109,11 @@ const Index = () => {
 
     {/* Hero Section with Net Zero Path */}
     <section className="relative min-h-[90vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 overflow-hidden">
-      <NetZeroPath />
+      <div className="absolute inset-0 flex items-center justify-center opacity-60 pointer-events-auto">
+        <div className="w-full max-w-5xl px-4">
+          <NetZeroChart />
+        </div>
+      </div>
 
       <div className="relative z-10 max-w-3xl">
         {/* Logo mark */}
