@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const pathD = "M-20 -10 L-20 140 Q-20 200 40 200 L700 200 Q760 200 760 260 L760 500 Q760 560 820 560 L1380 560 Q1440 560 1440 620 L1440 920";
@@ -119,16 +119,33 @@ export const NetZeroPath = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const [pathComplete, setPathComplete] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState('xMidYMid slice');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setAspectRatio('xMinYMin slice');
+      } else {
+        setAspectRatio('xMidYMid slice');
+      }
+    };
+
+    // Set initially
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <>
-      {/* Desktop animation */}
+      {/* Desktop & Mobile animation */}
       <svg
         ref={ref}
-        className="absolute inset-0 w-full h-full hidden md:block"
+        className="absolute inset-0 w-full h-full"
         viewBox="0 0 1440 900"
         fill="none"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio={aspectRatio}
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -241,18 +258,6 @@ export const NetZeroPath = () => {
         {pathComplete && <GlobeOnPath />}
 
       </svg>
-
-      {/* Mobile fallback */}
-      <div className="absolute inset-0 md:hidden overflow-hidden pointer-events-none">
-        <div
-          className="absolute top-0 left-0 w-1 h-full rounded-full"
-          style={{
-            background: 'linear-gradient(to bottom, hsl(158, 100%, 41%), transparent)',
-            opacity: 0.3,
-            marginLeft: '1.5rem',
-          }}
-        />
-      </div>
     </>
   );
 };
