@@ -6,7 +6,6 @@ import { useAdmin } from '@/hooks/useAdmin';
 import { Shield, ArrowRight, BarChart3, Target, TrendingDown, Award, Leaf, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { NetZeroPath } from '@/components/landing/NetZeroPath';
 import { MinimalBackground } from '@/components/landing/MinimalBackground';
 
 const FadeInSection = ({
@@ -152,9 +151,15 @@ const Index = () => {
       </AnimatePresence>
     </header>
 
-    {/* Hero Section with Net Zero Path */}
+    {/* Hero Section with Background Video */}
     <section className="relative min-h-[90vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 overflow-hidden">
-      <NetZeroPath />
+      <div className="hero-bg absolute inset-0 w-full h-full -z-10">
+        <video autoPlay playsInline muted loop className="w-full h-full object-cover opacity-90">
+          <source src="https://d2clay67sid5ua.cloudfront.net/files/0taxxqj5/smc-24/b0ca292a461f7d84a7d40cbb378e81e7ad5e0f21.mp4" type="video/mp4" />
+        </video>
+        {/* Optional overlay for better text readability */}
+        <div className="absolute inset-0 bg-white/40 mix-blend-overlay"></div>
+      </div>
 
       <div className="relative z-10 max-w-3xl">
         {/* Logo mark */}
