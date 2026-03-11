@@ -6,6 +6,7 @@ import { useAdmin } from '@/hooks/useAdmin';
 import { Shield, ArrowRight, BarChart3, Target, TrendingDown, Award, Leaf, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { NetZeroPath } from '@/components/landing/NetZeroPath';
 import { MinimalBackground } from '@/components/landing/MinimalBackground';
 
 const FadeInSection = ({
@@ -91,25 +92,24 @@ const Index = () => {
   if (user) return null;
 
   return <div className="relative min-h-screen flex flex-col overflow-x-hidden">
-    <MinimalBackground />
     {/* Header */}
-    <header className="relative z-50 w-full px-6 py-4 flex items-center justify-between bg-white/50 backdrop-blur-sm">
-      <a href="/">
-        <AlmacLogo className="h-8 md:h-12" />
-      </a>
-
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => navigate('/contact')} className="text-slate-600">
-          Contact Us
-        </Button>
-        <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
-          Sign In
-        </Button>
-        <Button size="sm" onClick={() => navigate('/pricing')} className="flex items-center gap-2">
-          Get Started <ArrowRight className="h-4 w-4" />
-        </Button>
-      </div>
+      <header className="relative z-10 w-full px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/50 backdrop-blur-sm border-b border-slate-100">
+        <a href="/" className="shrink-0">
+          <AlmacLogo className="h-8 md:h-10" />
+        </a>
+        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/contact')} className="text-slate-600">
+              Contact Us
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
+              Sign In
+            </Button>
+            <Button size="sm" onClick={() => navigate('/pricing')} className="flex items-center gap-2">
+              Get Started <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
 
       {/* Mobile Menu Toggle */}
       <button
@@ -152,16 +152,16 @@ const Index = () => {
     </header>
 
     {/* Hero Section with Background Video */}
-    <section className="relative min-h-[90vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 overflow-hidden">
-      <div className="hero-bg absolute inset-0 w-full h-full -z-10">
-        <video autoPlay playsInline muted loop className="w-full h-full object-cover opacity-90">
+    <section className="relative min-h-[95vh] flex flex-col items-center justify-center px-6 md:px-12 lg:px-20 overflow-hidden">
+      <div className="hero-bg absolute inset-0 w-full h-full -z-10 flex items-center justify-center overflow-hidden">
+        <video autoPlay playsInline muted loop className="min-w-full min-h-full object-cover opacity-90">
           <source src="https://d2clay67sid5ua.cloudfront.net/files/0taxxqj5/smc-24/b0ca292a461f7d84a7d40cbb378e81e7ad5e0f21.mp4" type="video/mp4" />
         </video>
         {/* Optional overlay for better text readability */}
         <div className="absolute inset-0 bg-white/40 mix-blend-overlay"></div>
       </div>
 
-      <div className="relative z-10 max-w-3xl">
+      <div className="relative z-10 max-w-3xl mx-auto text-center">
         {/* Logo mark */}
 
         {/* Headline */}
@@ -175,13 +175,10 @@ const Index = () => {
           duration: 0.8,
           delay: 0.4,
           ease: [0.25, 0.4, 0, 1]
-        }} className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] md:leading-[1.15] mb-6 -ml-0 md:-ml-10" style={{
+        }} className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] md:leading-[1.15] mb-6" style={{
           color: 'hsl(222, 47%, 11%)'
-        }}>The Carbon Intelligence Platform for your Organisation's
-          <br />
-          <span style={{
-            color: 'hsl(var(--primary))'
-          }}>Net Zero journey</span>
+        }}>
+          CARBON<span style={{ color: 'hsl(var(--primary))' }}>MASH</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -194,14 +191,19 @@ const Index = () => {
         }} transition={{
           duration: 0.7,
           delay: 0.8
-        }} className="text-base md:text-lg mb-10 max-w-xl -ml-0 md:-ml-10" style={{
+        }} className="text-base md:text-lg mb-10" style={{
           color: 'hsl(215, 16%, 47%)'
         }}>
-          Tracking Emissions, Setting Targets, Modelling Pathways, and Driving Sustainable Impact.
+          <span className="max-w-xl mx-auto block mb-2">
+            The Carbon Intelligence Platform for your Organisation's
+          </span>
+          <span className="text-sm md:text-base opacity-80 block md:whitespace-nowrap px-4 md:px-0">
+            Tracking Emissions, Setting Targets, Modelling Pathways, and Driving Sustainable Impact.
+          </span>
         </motion.p>
 
         {/* CTA buttons */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-col sm:flex-row gap-4 -ml-0 md:-ml-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button size="lg" onClick={() => navigate('/pricing')} className="flex items-center justify-center gap-2 text-base px-8 w-full sm:w-auto">
             Get Started <ArrowRight className="h-5 w-5" />
           </Button>

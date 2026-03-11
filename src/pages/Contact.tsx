@@ -7,9 +7,46 @@ import { Textarea } from '@/components/ui/textarea';
 import { Mail, ArrowLeft, Linkedin, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useForm, ValidationError } from '@formspree/react';
+import { toast } from 'sonner';
 
 const Contact = () => {
     const navigate = useNavigate();
+    const [state, handleSubmit] = useForm(import.meta.env.VITE_FORMSPREE_ID || "xovvrqzo"); // Defaulting to placeholder if not set
+
+    if (state.succeeded) {
+        toast.success("Message sent successfully!");
+        return (
+            <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
+                <MinimalBackground />
+                
+                {/* Brand Header for Success Screen */}
+                <div className="absolute top-8 left-1/2 -translate-x-1/2 mb-8">
+                    <AlmacLogo className="h-10 md:h-12" />
+                </div>
+
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-slate-100 text-center max-w-md w-full"
+                >
+                    <div className="bg-gradient-to-br from-primary/20 to-primary/5 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                        <Mail className="h-10 w-10 text-primary" />
+                    </div>
+                    <h2 className="text-3xl font-bold text-slate-900 mb-4 font-serif">Message Received!</h2>
+                    <p className="text-slate-600 mb-10 leading-relaxed text-lg">
+                        Thank you for reaching out. The <span className="text-primary font-semibold">Carbonmash</span> team has received your enquiry and will be in touch shortly.
+                    </p>
+                    <Button 
+                        onClick={() => navigate('/')} 
+                        className="w-full h-12 text-lg font-medium shadow-sm hover:shadow-md transition-shadow"
+                    >
+                        Return to Home
+                    </Button>
+                </motion.div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative min-h-screen flex flex-col">
@@ -95,29 +132,39 @@ const Contact = () => {
                             className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100"
                         >
                             <h2 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
-                            <form className="space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                {/* Formspree Branding Fields */}
+                                <input type="hidden" name="_subject" value="New Message - Carbonmash Contact Form" />
+                                <input type="hidden" name="_org" value="Carbonmash Carbon Intelligence" />
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="firstName">First Name</Label>
-                                        <Input id="firstName" placeholder="John" />
+                                        <Input id="firstName" name="firstName" placeholder="John" required />
+                                        <ValidationError prefix="First Name" field="firstName" errors={state.errors} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="lastName">Last Name</Label>
-                                        <Input id="lastName" placeholder="Doe" />
+                                        <Input id="lastName" name="lastName" placeholder="Doe" required />
+                                        <ValidationError prefix="Last Name" field="lastName" errors={state.errors} />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
                                     <Label htmlFor="email">Email Address</Label>
-                                    <Input id="email" type="email" placeholder="john@example.com" />
+                                    <Input id="email" type="email" name="email" placeholder="john@example.com" required />
+                                    <ValidationError prefix="Email" field="email" errors={state.errors} />
                                 </div>
 
                                 <div className="space-y-2">
                                     <Label htmlFor="message">Message</Label>
-                                    <Textarea id="message" placeholder="How can we help you?" className="min-h-[150px]" />
+                                    <Textarea id="message" name="message" placeholder="How can we help you?" className="min-h-[150px]" required />
+                                    <ValidationError prefix="Message" field="message" errors={state.errors} />
                                 </div>
 
-                                <Button type="submit" className="w-full">Send Message</Button>
+                                <Button type="submit" disabled={state.submitting} className="w-full">
+                                    {state.submitting ? "Sending..." : "Send Message"}
+                                </Button>
                             </form>
                         </motion.div>
                     </div>
