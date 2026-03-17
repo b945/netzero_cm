@@ -102,6 +102,9 @@ const Index = () => {
             <Button variant="ghost" size="sm" onClick={() => navigate('/contact')} className="text-slate-600">
               Contact Us
             </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/pricing')} className="text-slate-600">
+              Pricing
+            </Button>
             <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
               Sign In
             </Button>
@@ -134,6 +137,12 @@ const Index = () => {
             }}>
               Contact Us
             </Button>
+            <Button variant="ghost" className="w-full justify-start text-slate-600" onClick={() => {
+              navigate('/pricing');
+              setIsMobileMenuOpen(false);
+            }}>
+              Pricing
+            </Button>
             <Button variant="outline" className="w-full justify-start" onClick={() => {
               navigate('/auth');
               setIsMobileMenuOpen(false);
@@ -152,9 +161,9 @@ const Index = () => {
     </header>
 
     {/* Hero Section with Background Video */}
-    <section className="relative min-h-[95vh] flex flex-col items-center justify-center px-6 md:px-12 lg:px-20 overflow-hidden">
+    <section className="relative min-h-[95vh] flex flex-col items-center justify-start pt-32 lg:pt-48 px-6 md:px-12 lg:px-20 overflow-hidden">
       <div className="hero-bg absolute inset-0 w-full h-full -z-10 flex items-center justify-center overflow-hidden">
-        <video autoPlay playsInline muted loop className="min-w-full min-h-full object-cover opacity-90">
+        <video autoPlay playsInline muted loop className="min-w-full min-h-full object-cover shadow-[inset_0_0_100px_rgba(255,255,255,1)]">
           <source src="https://d2clay67sid5ua.cloudfront.net/files/0taxxqj5/smc-24/b0ca292a461f7d84a7d40cbb378e81e7ad5e0f21.mp4" type="video/mp4" />
         </video>
         {/* Optional overlay for better text readability */}
