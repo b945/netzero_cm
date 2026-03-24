@@ -73,7 +73,8 @@ const Contact = () => {
                 <div className="max-w-6xl w-full">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                         className="text-center mb-10 md:mb-16"
                     >
@@ -84,7 +85,8 @@ const Contact = () => {
                         {/* Contact Information */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
                             <h2 className="text-2xl font-bold text-slate-900 mb-8">Contact Information</h2>
@@ -127,7 +129,8 @@ const Contact = () => {
                         {/* Contact Form */}
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: 0.4 }}
                             className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100"
                         >

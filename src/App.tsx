@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
+import ToolsAndServices from "./pages/ToolsAndServices";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const AppRoutes = () => {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/tools-and-services" element={<ToolsAndServices />} />
         <Route
           path="/dashboard"
           element={

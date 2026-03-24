@@ -318,7 +318,8 @@ const Pricing = () => {
                                 <motion.h2
                                     key={data.title}
                                     initial={{ opacity: 0, y: -10 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-50px" }}
                                     transition={{ duration: 0.4, ease: "easeOut" }}
                                     className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight"
                                 >
@@ -330,11 +331,12 @@ const Pricing = () => {
                                 {data.plans.map((plan, index) => (
                                     <motion.div
                                         key={plan.name}
-                                        initial={{ opacity: 0, y: 30 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.5, delay: index * 0.15 }}
-                                        whileHover={{ y: -8, scale: 1.01, transition: { duration: 0.3 } }}
-                                        className={`relative p-6 md:p-8 rounded-[2rem] border transition-all duration-300 flex flex-col group ${plan.highlight
+                                        initial={{ opacity: 0, y: 40 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, margin: "-50px" }}
+                                        transition={{ duration: 0.7, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                                        whileHover={{ y: -8, scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+                                        className={`relative p-6 md:p-8 rounded-[2rem] border transition-colors transition-shadow duration-300 flex flex-col group ${plan.highlight
                                             ? 'border-primary/50 bg-white/95 shadow-2xl shadow-primary/10 ring-1 ring-primary/20 z-10'
                                             : 'border-slate-200 bg-white/80 hover:bg-white hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5'
                                             } backdrop-blur-md`}
@@ -360,9 +362,10 @@ const Pricing = () => {
                                                 {plan.features.map((feature, i) => (
                                                     <motion.li
                                                         key={feature}
-                                                        initial={{ opacity: 0, x: -10 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        transition={{ delay: 0.5 + (index * 0.1) + (i * 0.05) }}
+                                                        initial={{ opacity: 0, x: -15 }}
+                                                        whileInView={{ opacity: 1, x: 0 }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) + (i * 0.08), ease: "easeOut" }}
                                                         className="flex items-start gap-3 text-sm text-slate-700 font-medium group/item"
                                                     >
                                                         <div className="mt-0.5 rounded-full bg-primary/10 p-1 group-hover/item:bg-primary/20 transition-colors duration-300">

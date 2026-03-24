@@ -9,51 +9,6 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { NetZeroPath } from '@/components/landing/NetZeroPath';
 import { MinimalBackground } from '@/components/landing/MinimalBackground';
 
-const FadeInSection = ({
-  children,
-  className = '',
-  delay = 0
-}: { children: React.ReactNode; className?: string; delay?: number; }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, {
-    once: true,
-    margin: '-60px'
-  });
-  return <motion.div ref={ref} initial={{
-    opacity: 0,
-    y: 50
-  }} animate={isInView ? {
-    opacity: 1,
-    y: 0
-  } : {
-    opacity: 0,
-    y: 50
-  }} transition={{
-    duration: 0.7,
-    delay,
-    ease: [0.25, 0.4, 0, 1]
-  }} className={className}>
-    {children}
-  </motion.div>;
-};
-
-const features = [{
-  icon: BarChart3,
-  title: 'Emissions Tracking',
-  description: 'Comprehensive Scope 1, 2 & 3 emissions monitoring across your entire value chain.'
-}, {
-  icon: Target,
-  title: 'Net Zero Pathways',
-  description: 'Science-based target setting aligned with SBTi methodology for decarbonisation.'
-}, {
-  icon: TrendingDown,
-  title: 'Carbon Budget',
-  description: 'Financial carbon cost analysis with discount rate modelling and forecasting.'
-}, {
-  icon: Award,
-  title: 'Sustainability Credentials',
-  description: 'Track CDP scores, EcoVadis ratings, and SBTi commitments in one place.'
-}];
 
 const Index = () => {
   const {
@@ -93,25 +48,53 @@ const Index = () => {
 
   return <div className="relative min-h-screen flex flex-col overflow-x-hidden">
     {/* Header */}
-      <header className="relative z-10 w-full px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/50 backdrop-blur-sm border-b border-slate-100">
-        <a href="/" className="shrink-0">
+      <motion.header 
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 w-full px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/50 backdrop-blur-sm border-b border-slate-100"
+      >
+        <motion.a 
+          href="/" 
+          className="shrink-0"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <AlmacLogo className="h-8 md:h-10" />
-        </a>
+        </motion.a>
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4">
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm" onClick={() => navigate('/contact')} className="text-slate-600">
-              Contact Us
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/pricing')} className="text-slate-600">
-              Pricing
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
-              Sign In
-            </Button>
-            <Button size="sm" onClick={() => navigate('/pricing')} className="flex items-center gap-2">
-              Get Started <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, staggerChildren: 0.1 }}
+            className="hidden md:flex items-center gap-3"
+          >
+            <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/contact')} className="text-slate-600 transition-colors">
+                Contact Us
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/tools-and-services')} className="text-slate-600 transition-colors">
+                Tools & Services
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/pricing')} className="text-slate-600 transition-colors">
+                Pricing
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
+              <Button variant="outline" size="sm" onClick={() => navigate('/auth')} className="hover:bg-primary hover:text-white border-slate-200 text-slate-700">
+                Sign In
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button size="sm" onClick={() => navigate('/auth?tab=signup')} className="flex items-center gap-2 shadow-md hover:shadow-lg transition-all">
+                Get Started <ArrowRight className="h-4 w-4" />
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
 
       {/* Mobile Menu Toggle */}
@@ -138,6 +121,12 @@ const Index = () => {
               Contact Us
             </Button>
             <Button variant="ghost" className="w-full justify-start text-slate-600" onClick={() => {
+              navigate('/tools-and-services');
+              setIsMobileMenuOpen(false);
+            }}>
+              Tools & Services
+            </Button>
+            <Button variant="ghost" className="w-full justify-start text-slate-600" onClick={() => {
               navigate('/pricing');
               setIsMobileMenuOpen(false);
             }}>
@@ -150,7 +139,7 @@ const Index = () => {
               Sign In
             </Button>
             <Button className="w-full justify-start flex items-center gap-2" onClick={() => {
-              navigate('/pricing');
+              navigate('/auth?tab=signup');
               setIsMobileMenuOpen(false);
             }}>
               Get Started <ArrowRight className="h-4 w-4" />
@@ -158,12 +147,12 @@ const Index = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
 
     {/* Hero Section with Background Video */}
     <section className="relative min-h-[95vh] flex flex-col items-center justify-start pt-32 lg:pt-48 px-6 md:px-12 lg:px-20 overflow-hidden">
       <div className="hero-bg absolute inset-0 w-full h-full -z-10 flex items-center justify-center overflow-hidden">
-        <video autoPlay playsInline muted loop className="min-w-full min-h-full object-cover shadow-[inset_0_0_100px_rgba(255,255,255,1)]">
+        <video autoPlay playsInline muted loop className="min-w-full min-h-full object-cover shadow-[inset_0_0_100px_rgba(255,255,255,1)] pointer-events-none">
           <source src="https://d2clay67sid5ua.cloudfront.net/files/0taxxqj5/smc-24/b0ca292a461f7d84a7d40cbb378e81e7ad5e0f21.mp4" type="video/mp4" />
         </video>
         {/* Optional overlay for better text readability */}
@@ -171,51 +160,58 @@ const Index = () => {
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
-        {/* Logo mark */}
-
         {/* Headline */}
-        <motion.h1 initial={{
-          opacity: 0,
-          y: 30
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.8,
-          delay: 0.4,
-          ease: [0.25, 0.4, 0, 1]
-        }} className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] md:leading-[1.15] mb-6" style={{
-          color: 'hsl(222, 47%, 11%)'
-        }}>
-          CARBON<span style={{ color: 'hsl(var(--primary))' }}>MASH</span>
+        {/* Headline */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{
+            duration: 1,
+            delay: 0.5,
+            ease: [0.16, 1, 0.3, 1]
+          }} 
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] md:leading-[1.15] mb-8 tracking-tight font-sans bg-clip-text text-transparent bg-gradient-to-r from-black to-[#00D170] cursor-default select-none" 
+        >
+          CARBONMASH
         </motion.h1>
 
-        {/* Subtitle */}
-        <motion.p initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.7,
-          delay: 0.8
-        }} className="text-base md:text-lg mb-10" style={{
-          color: 'hsl(215, 16%, 47%)'
-        }}>
-          <span className="max-w-xl mx-auto block mb-2">
-            The Carbon Intelligence Platform for your Organisation's
+        {/* Subtitles (Unified Size and Font matching Logo) */}
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }} 
+          className="text-lg md:text-2xl font-sans flex flex-col gap-3 mb-12 text-slate-700 drop-shadow-sm max-w-3xl mx-auto cursor-default select-none" 
+        >
+          <span className="block px-4 md:px-0 font-semibold text-slate-800 tracking-wide">
+            The Carbon Intelligence Platform for your Organisation
           </span>
-          <span className="text-sm md:text-base opacity-80 block md:whitespace-nowrap px-4 md:px-0">
+          <span className="block px-4 md:px-0 text-base md:text-lg font-medium opacity-90 leading-relaxed text-slate-600">
             Tracking Emissions, Setting Targets, Modelling Pathways, and Driving Sustainable Impact.
           </span>
         </motion.p>
 
         {/* CTA buttons */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button size="lg" onClick={() => navigate('/pricing')} className="flex items-center justify-center gap-2 text-base px-8 w-full sm:w-auto">
-            Get Started <ArrowRight className="h-5 w-5" />
-          </Button>
+        <motion.div 
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1.1, type: "spring", stiffness: 100 }} 
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+        >
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full sm:w-auto"
+          >
+            <Button size="lg" onClick={() => navigate('/auth?tab=signup')} className="flex items-center justify-center gap-3 text-lg px-8 py-6 w-full sm:w-auto shadow-xl shadow-primary/20 hover:shadow-2xl hover:bg-primary/90 transition-all">
+              <span className="font-semibold">Get Started</span> 
+              <motion.div
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ArrowRight className="h-5 w-5" />
+              </motion.div>
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
     </section>
